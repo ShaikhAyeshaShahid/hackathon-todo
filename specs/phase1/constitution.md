@@ -1,5 +1,5 @@
 # Constitution – Phase I
-
+- Task IDs must be auto-incremented integers starting from 1
 ## Principles
 - This is a console-based Todo application
 - No database is allowed
