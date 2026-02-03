@@ -1,6 +1,8 @@
 fastapi
 uvicorn
 sqlmodel
-psycopg2-binary
-python-jose
+sqlalchemy
+psycopg[binary]
+PyJWT
+python-jose[cryptography]
 passlib[bcrypt]
