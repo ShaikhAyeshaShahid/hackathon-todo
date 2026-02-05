@@ -12,7 +12,12 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
+# backend/app/security.py update
 def hash_password(password: str) -> str:
+    # Manual check as per Hackathon requirements to avoid 500 errors
+    pwd_bytes = password.encode("utf-8")
+    if len(pwd_bytes) > 72:
+        raise ValueError("Password cannot be longer than 72 bytes")
     return pwd_context.hash(password)
 
 
