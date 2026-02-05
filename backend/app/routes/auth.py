@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials, OAuth2PasswordRequestForm
 from sqlmodel import Session, select
 
 from ..database import get_session
-from ..models import User, UserCreate, UserLogin, UserRead, Token
+from ..models import User, UserCreate, UserRead
 from ..security import hash_password, verify_password, create_access_token, decode_access_token
-from fastapi.security import OAuth2PasswordRequestForm
-from sqlmodel import select
 
 router = APIRouter(tags=["Auth"])
 bearer_scheme = HTTPBearer()
@@ -24,8 +22,6 @@ def register(payload: UserCreate, session: Session = Depends(get_session)):
     session.refresh(user)
     return UserRead(id=user.id, email=user.email)
 
-
-# backend/app/routes/auth.py
 
 @router.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Session = Depends(get_session)):
@@ -47,10 +43,18 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Session = D
         )
 
     token = create_access_token({"sub": str(user.id)})
-    return {"access_token": token, "token_type": "bearer"}
+    
+    # --- YAHAN CHANGE KIYA HAI ---
+    # Ab hum user_id bhi bhej rahay hain taake frontend error na de
+    return {
+        "access_token": token, 
+        "token_type": "bearer", 
+        "user_id": user.id 
+    }
+
 
 def get_current_user(
-     credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
     session: Session = Depends(get_session),
 ) -> User:
     token = credentials.credentials
