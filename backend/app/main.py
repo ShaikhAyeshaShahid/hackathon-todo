@@ -8,7 +8,7 @@ app = FastAPI(title="Hackathon Todo API")
 # 2. Add CORS Middleware (Ye security gate khol dega)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"], # Frontend URL
+    allow_origins=["*"], # Frontend URL
     allow_credentials=True,
     allow_methods=["*"], # Allow all methods (GET, POST, etc)
     allow_headers=["*"], # Allow all headers
