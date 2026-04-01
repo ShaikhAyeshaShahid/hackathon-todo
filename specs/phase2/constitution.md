@@ -1,5 +1,7 @@
 # Phase II Constitution
 
+- Backend must enforce task ownership using authenticated user identity
+
 ## Principles
 - This is a full-stack Todo web application
 - Backend must be a REST API
